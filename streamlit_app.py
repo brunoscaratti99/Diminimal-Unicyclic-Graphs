@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import streamlit as st
+import sys
+import os
+sys.path.append(os.path.join("..", "src"))
 
 from utils import (
     _format_weight,
