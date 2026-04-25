@@ -57,20 +57,20 @@ def parse_int_list(raw_value, field_name):
 
 def validate_inputs(k, p, lambdas, mus):
     if k <= 0:
-        raise ValueError("k deve ser um inteiro positivo.")
+        raise ValueError("k must be a positive integer.")
 
     if len(p) != k:
-        raise ValueError(f"A lista p deve ter exatamente k elementos. Recebido len(p)={len(p)} e k={k}.")
+        raise ValueError(f"The list p must satisfy |p|=k. Got len(p)={len(p)} and k={k}.")
 
     if any(value <= 0 for value in p):
-        raise ValueError("Todos os valores de p devem ser inteiros positivos.")
+        raise ValueError("All values in p must be positive integers.")
 
     if len(lambdas) < 2:
-        raise ValueError("A lista lambdas deve ter pelo menos 2 valores.")
+        raise ValueError("The list lambdas must have at least 2 values.")
 
     if len(mus) != len(lambdas):
         raise ValueError(
-            "A construcao atual exige len(mus) = len(lambdas), porque utils.generalized_sunlet_matrix usa mu[:-1] e lambdas[1:]."
+            "The current construction requires len(mus) = len(lambdas), because utils.generalized_sunlet_matrix uses mu[:-1] and lambdas[1:]."
         )
 
 
@@ -101,8 +101,8 @@ def build_spectrum_tables(matrix, decimals, tolerance):
     ]
     distinct_spectrum = [
         {
-            "autovalor_distinto": round(group["center"], decimals),
-            "multiplicidade": group["count"],
+            "DSpec(A)": round(group["center"], decimals),
+            "Multiplicity": group["count"],
         }
         for group in grouped[::-1]
     ]
@@ -158,7 +158,7 @@ def build_weighted_graph_figure(matrix, weight_precision=2):
         bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75},
     )
 
-    ax.set_title("Grafo ponderado gerado a partir da matriz")
+    ax.set_title("Weighted graph representation of the generalized sunlet matrix", fontsize=14, pad=20)
     ax.set_aspect("equal")
     ax.margins(0.12)
     ax.axis("off")
@@ -178,20 +178,20 @@ def render_results(k, p, lambdas, mus, decimals, tolerance):
     )
     graph_figure = build_weighted_graph_figure(matrix)
 
-    st.success("Construcao concluida com sucesso.")
+    st.success("Construction completed successfully.")
 
     metric_col_1, metric_col_2, metric_col_3 = st.columns(3)
-    metric_col_1.metric("Ordem da matriz", f"{matrix.shape[0]} x {matrix.shape[1]}")
-    metric_col_2.metric("Autovalores totais", len(eigenvalues))
-    metric_col_3.metric("Autovalores distintos", len(distinct_spectrum))
+    metric_col_1.metric("Matrix Order", f"{matrix.shape[0]} x {matrix.shape[1]}")
+    metric_col_2.metric("Total Eigenvalues", len(eigenvalues))
+    metric_col_3.metric("Distinct Eigenvalues", len(distinct_spectrum))
 
-    st.subheader("Grafo com pesos")
+    st.subheader("Weighted Graph")
     st.pyplot(graph_figure, clear_figure=True)
 
-    st.subheader("Espectro da matriz")
+    st.subheader("Matrix Spectrum")
     st.dataframe(full_spectrum, use_container_width=True, hide_index=True)
 
-    st.subheader("Autovalores distintos")
+    st.subheader("Distinct Eigenvalues")
     st.dataframe(distinct_spectrum, use_container_width=True, hide_index=True)
 
     with st.expander("Ver matriz ponderada"):
@@ -206,10 +206,10 @@ def main():
 
     st.title("Diminimal Unicyclic Graphs")
     st.write(
-        "Entre com `lambdas`, `mus`, `k` e `p` para construir a matriz generalized sunlet, visualizar o grafo ponderado e inspecionar seu espectro."
+        "Enter `lambdas`, `mus`, `k` and `p` to construct the generalized sunlet matrix, visualize the weighted graph and inspect its spectrum."
     )
     st.caption(
-        "Formato aceito nas listas: `1, 2, 3` ou `1 2 3`. A validacao atual exige `len(p) = k` e `len(mus) = len(lambdas)`."
+        "Accepted format for lists: `1, 2, 3` or `1 2 3`. The current validation requires `len(p) = k` and `len(mus) = len(lambdas)`."
     )
 
     with st.sidebar:
