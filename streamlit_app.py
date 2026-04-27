@@ -96,7 +96,7 @@ def build_spectrum_tables(matrix, decimals, tolerance):
     grouped = cluster_distinct_values(eigenvalues, tolerance)
 
     full_spectrum = [
-        {"indice": index + 1, "autovalor": round(float(value), decimals)}
+        {"Index": index + 1, "Eigenvalue": round(float(value), decimals)}
         for index, value in enumerate(eigenvalues)
     ]
     distinct_spectrum = [
@@ -194,7 +194,7 @@ def render_results(k, p, lambdas, mus, decimals, tolerance):
     st.subheader("Distinct Eigenvalues")
     st.dataframe(distinct_spectrum, use_container_width=True, hide_index=True)
 
-    with st.expander("Ver matriz ponderada"):
+    with st.expander("See Matrix Entries"):
         st.dataframe(np.round(matrix, decimals), use_container_width=True)
 
 
@@ -213,16 +213,16 @@ def main():
     )
 
     with st.sidebar:
-        st.header("Configuracao")
+        st.header("Settings")
         decimals = st.number_input(
-            "Casas decimais para exibir o espectro",
+            "Precision for displaying eigenvalues",
             min_value=2,
             max_value=12,
             value=DEFAULT_DECIMALS,
             step=1,
         )
         tolerance = st.number_input(
-            "Tolerancia para agrupar autovalores distintos",
+            "Tolerance for clustering eigenvalues into distinct values",
             min_value=1e-10,
             max_value=1e-1,
             value=DEFAULT_TOLERANCE,
@@ -240,7 +240,7 @@ def main():
             k = st.number_input("k", min_value=1, value=DEFAULT_K, step=1)
             p_raw = st.text_area("p", value=DEFAULT_P, height=120)
 
-        submitted = st.form_submit_button("Gerar matriz, grafo e espectro", use_container_width=True)
+        submitted = st.form_submit_button("Generate Matrix, Graph and Spectrum", use_container_width=True)
 
     if not submitted:
         return
