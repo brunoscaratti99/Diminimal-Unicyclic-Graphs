@@ -158,7 +158,7 @@ def build_weighted_graph_figure(matrix, weight_precision=2):
         bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.75},
     )
 
-    ax.set_title("Weighted graph representation of the generalized sunlet matrix", fontsize=14, pad=20)
+    ax.set_title("Weighted graph associated with the matrix", fontsize=14, pad=20)
     ax.set_aspect("equal")
     ax.margins(0.12)
     ax.axis("off")
@@ -206,10 +206,10 @@ def main():
 
     st.title("Diminimal Unicyclic Graphs")
     st.write(
-        "Enter `lambdas`, `mus`, `k` and `p` to construct the generalized sunlet matrix, visualize the weighted graph and inspect its spectrum."
+        "Enter `lambdas`, `mus`, `k` and `p` to construct the generalized unicyclic graph matrix, visualize the weighted graph and inspect its spectrum."
     )
     st.caption(
-        "Accepted format for lists: `1, 2, 3` or `1 2 3`. The current validation requires `len(p) = k` and `len(mus) = len(lambdas)`."
+        "Accepted format for lists: `1, 2, 3` or `1 2 3`. The sequence p must satisfy `|p| = k` and `|mus| = |lambdas|`."
     )
 
     with st.sidebar:
